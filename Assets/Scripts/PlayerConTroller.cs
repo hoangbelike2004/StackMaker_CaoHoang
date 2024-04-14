@@ -15,6 +15,7 @@ public class PlayerConTroller : MonoBehaviour
     [SerializeField] private Camera _Camera;
     private float corner = 0;
     Vector2 start, end;
+    Touch touch;
     void Start()
     {
         _Camera = Camera.main;
@@ -22,22 +23,38 @@ public class PlayerConTroller : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetMouseButtonDown(0))
+        if(Input.touchCount > 0)
         {
-            start = Input.mousePosition;
-            
+           touch = Input.GetTouch(0);
         }
-        else if(Input.GetMouseButtonUp(0))
+        switch (touch.phase)
         {
-            end = Input.mousePosition;
-            
+            case TouchPhase.Began:
+                start = Input.mousePosition;
+                break;
+            case TouchPhase.Ended:
+                end = Input.mousePosition;
+                MoveControl();
+                break;
+        }
+        //if(Input.GetMouseButtonDown(0))
+        //{
+        //    start = Input.mousePosition;
 
-        }
+        //}
+        //else if(Input.GetMouseButtonUp(0))
+        //{
+        //    end = Input.mousePosition;
+
+
+        //}
+           
+           
+    }
+    public void MoveControl()
+    {
+        //cach 1
         Vector2 direction = end - start;
-        if(start == end)
-        {
-            return;
-        }else
         if (direction.y > 0)//Up
         {
             Debug.Log("up");
@@ -45,13 +62,12 @@ public class PlayerConTroller : MonoBehaviour
 
             if (start.x < end.x)
             {
-              if(corner <= 45f)//Forward
+                if (corner <= 45f)//Forward
                 {
-                    
                     Debug.Log("Forward");
                     MovePlayer(Vector3.forward);
                 }
-              else if(corner > 45f)//Right
+                else if (corner > 45f)//Right
                 {
                     Debug.Log("Right");
                     MovePlayer(Vector3.right);
@@ -72,7 +88,7 @@ public class PlayerConTroller : MonoBehaviour
                 }
             }
         }
-        if(direction.y < 0)//down
+        if (direction.y < 0)//down
         {
             AngleOfTwoVector(start, end);
             if (start.x < end.x)
@@ -101,7 +117,12 @@ public class PlayerConTroller : MonoBehaviour
                     MovePlayer(Vector3.left);
                 }
             }
-        }        
+        }
+    }
+    public void MoveControl2()
+    {
+        AngleOfTwoVector(start, end);
+        Debug.Log("corner: "+corner);
     }
     public void MovePlayer(Vector3 newvec)
     {
@@ -109,14 +130,10 @@ public class PlayerConTroller : MonoBehaviour
     }
     public void AngleOfTwoVector(Vector2 newStart,Vector2 newEnd) 
     {
-
         Vector2 pointHidden = new Vector2(newStart.x, newEnd.y);
-        Vector2 sp = new Vector2((pointHidden.x- newStart.x),(pointHidden.y- newStart.y));
-        Vector2 se = new Vector2((newEnd.x- newStart.x), (newEnd.y- newStart.y ));
-        //float angle = Vector2.Dot(sp,se) / (sp.magnitude*se.magnitude);
-        corner = Vector2.Angle(sp,se);
-        
-        //Debug.Log("Angle =" + angle);
-        //float co = angle*Mathf.Rad2Deg;
+        Vector2 sp = new Vector2((pointHidden.x - newStart.x), (pointHidden.y - newStart.y));
+        Vector2 se = new Vector2((newEnd.x - newStart.x), (newEnd.y - newStart.y));
+        corner = Vector2.Angle(sp, se);
+
     }
 }
