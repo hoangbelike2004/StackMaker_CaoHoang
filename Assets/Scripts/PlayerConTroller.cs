@@ -14,8 +14,9 @@ public class PlayerConTroller : MonoBehaviour
 {
     [SerializeField] private Camera _Camera;
     [SerializeField] private LayerMask layerStack;
-    [SerializeField] private LayerMask layerGround;
+    [SerializeField] private LayerMask layerGround,layerWin;
     [SerializeField] private float moveSpeed= 10f;
+    bool canMove;
     private float corner = 0;
     Vector2 start, end;
     Touch touch;
@@ -27,11 +28,12 @@ public class PlayerConTroller : MonoBehaviour
     void Start()
     {
         _Camera = Camera.main;
+        canMove = true;
     }
 
     void Update()
     {
-        
+        //CheckWin(Vector3.forward);
         //if (Input.touchCount > 0)
         //{
         //    touch = Input.GetTouch(0);
@@ -54,7 +56,11 @@ public class PlayerConTroller : MonoBehaviour
         else if (Input.GetMouseButtonUp(0))
         {
             end = Input.mousePosition;
-            if (targetPosition == Vector3.zero)
+            if (targetPosition == Vector3.zero&&canMove)
+            {
+                MoveControl();
+            }
+            else if (PointEnd == Vector3.zero&&canMove)
             {
                 MoveControl();
             }
@@ -66,14 +72,26 @@ public class PlayerConTroller : MonoBehaviour
         if (targetPosition != Vector3.zero)
         {
             MovePlayer(targetPosition);
+            canMove = false;
             if(transform.position == targetPosition)
             {
+                canMove = true;
                 targetPosition = Vector3.zero;
+            }
+        }
+        if (PointEnd != Vector3.zero)
+        {
+            MovePlayer(PointEnd);
+            canMove =false;
+            if(transform.position == PointEnd)
+            {
+                canMove = true;
+                PointEnd = Vector3.zero;
             }
         }
 
     }
-    public void MoveControl()
+    public void MoveControl()//control move of player
     {
         //cach 1
         Vector2 direction = end - start;
@@ -86,13 +104,16 @@ public class PlayerConTroller : MonoBehaviour
             {
                 if (corner <= 45f)//Forward
                 {
+                    
                     CheckPoint(Vector3.forward);
+                    CheckGround(Vector3.forward);
                     Debug.Log("Forward");
                     //MovePlayer(PointEnd);
                 }
                 else if (corner > 45f)//Right
                 {
                     Debug.Log("Right");
+                    CheckGround(Vector3.right);
                     CheckPoint(Vector3.right);
                     //MovePlayer(Vector3.right);
                 }
@@ -103,6 +124,7 @@ public class PlayerConTroller : MonoBehaviour
                 if (corner <= 45f)//forward
                 {
                     CheckPoint(Vector3.forward);
+                    CheckGround(Vector3.forward);
                     Debug.Log("Forward");
                     //MovePlayer(Vector3.forward);
                 }
@@ -110,6 +132,7 @@ public class PlayerConTroller : MonoBehaviour
                 {
                     Debug.Log("Left");
                     CheckPoint(Vector3.left);
+                    CheckGround(Vector3.left);
                     //MovePlayer(Vector3.left);
                 }
             }
@@ -121,6 +144,7 @@ public class PlayerConTroller : MonoBehaviour
             {
                 if (corner <= 45f)//Backward
                 {
+                    CheckGround(Vector3.back);
                     CheckPoint(Vector3.back);
                     Debug.Log("Backward");
                     //MovePlayer(Vector3.back);
@@ -128,6 +152,7 @@ public class PlayerConTroller : MonoBehaviour
                 else if (corner > 45f)//Right
                 {
                     Debug.Log("Right");
+                    CheckGround(Vector3.right);
                     CheckPoint(Vector3.right);
                     //MovePlayer(Vector3.right);
                 }
@@ -136,23 +161,20 @@ public class PlayerConTroller : MonoBehaviour
             {
                 if (corner <= 45f)//Backward
                 {
+                    CheckGround(Vector3.back);
                     CheckPoint(Vector3.back);
                     Debug.Log("Backward");
                     //MovePlayer(Vector3.back);
                 }
                 else if (corner > 45f)//left
                 {
+                    CheckGround(Vector3.left);
                     CheckPoint(Vector3.left);
                     Debug.Log("Left");
                     //MovePlayer(Vector3.left);
                 }
             }
         }
-    }
-    public void MoveControl2()
-    {
-        AngleOfTwoVector(start, end);
-        Debug.Log("corner: "+corner);
     }
     public void MovePlayer(Vector3 newvec)
     {
@@ -170,19 +192,18 @@ public class PlayerConTroller : MonoBehaviour
     }
     public void CheckPoint(Vector3 directionMove)
     {
-        for(int i = 1;i<20;i++)
+        for(int i = 1;i<50;i++)
         {
 
-            Debug.DrawLine(transform.position + directionMove * i, transform.position + directionMove * i + Vector3.down * 5f, Color.red, 3f);
+            //Debug.DrawLine(transform.position + directionMove * i, transform.position + directionMove * i + Vector3.down * 5f, Color.red, 3f);
 
             if(Physics.Raycast(transform.position +Vector3.up*2f + directionMove * i, Vector3.down, 5f, layerStack))
             {
-                var savePoint = transform.position + directionMove * i;
-                listPoint.Add(savePoint);
+                //targetPosition = transform.position + directionMove * i;
             }
             else
             {
-                targetPosition = transform.position + directionMove * (i - 1);
+                targetPosition = transform.position + directionMove * (i-1);
                 break;
             }
            
@@ -207,9 +228,34 @@ public class PlayerConTroller : MonoBehaviour
 
             //}
         }
-        PointEnd = listPoint[listPoint.Count - 1];
-        listPoint.Clear();
-
+        
     }
+    public void CheckGround(Vector3 directionMove)//Check Ground to player move from position next to the wall
+    {
+        for (int i = 1; i < 50; i++)
+        {
+            
+            Debug.DrawLine(transform.position + directionMove * i, transform.position + directionMove * i + Vector3.down * 5f, Color.red, 3f);
 
+            if (Physics.Raycast(transform.position + Vector3.up * 2f + directionMove * i, Vector3.down, 5f, layerGround))
+            {
+                PointEnd = transform.position + directionMove * (i-1);
+                Debug.Log("Point: " + PointEnd);
+                break;
+            }
+            
+        }
+    }
+    //private void OnDrawGizmos()
+    //{
+    //    Debug.DrawLine(transform.position, transform.position + Vector3.forward * 30f, Color.blue, 5f);
+    //}
+    //public void CheckWin(Vector3 directionMove)
+    //{
+    //    Debug.DrawLine(transform.position,transform.position + directionMove*30f,Color.blue,5f);
+    //    if(Physics.Raycast(transform.position,directionMove , 10f, layerWin))
+    //    {
+    //        Debug.Log("win");
+    //    }
+    //}
 }

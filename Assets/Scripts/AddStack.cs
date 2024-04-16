@@ -23,8 +23,6 @@ public class AddStack : MonoBehaviour
             t.SetParent(this.transform);
             t.localPosition = new Vector3(0,countStack*heightStack,0);
             countStack++;
-            Debug.Log("height Stack =" + countStack * heightStack);
-            Debug.Log(countStack);
 
         }
     }
