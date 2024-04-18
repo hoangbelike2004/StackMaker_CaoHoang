@@ -4,9 +4,48 @@ using UnityEngine;
 
 public class RemoveStack : MonoBehaviour
 {
-    [SerializeField] GameObject PlayerPicture;
-    [SerializeField] List<GameObject> stack;
-    Touch touch;
-    // Update is called once per frame
-    
+    [SerializeField] Transform PlayerPicture;
+    [SerializeField] Transform PlayerParent;
+    public delegate void FinishDelegate();
+    public static FinishDelegate FinishEvent;
+    int index=0;
+    public AddStack AddStack;
+    //[SerializeField] List<GameObject> stack;
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("UnBrick"))//when  touch line then remove brick
+        {
+            AddStack.countStack--;
+            other.transform.tag = "Untagged";
+            index++;
+            Vector3 newPos = PlayerPicture.position;
+            newPos.y -= 0.45f;
+            PlayerPicture.position = newPos;
+
+
+            PlayerParent.GetChild(PlayerParent.childCount - 1).gameObject.SetActive(false);
+            PlayerParent.GetChild(PlayerParent.childCount - 1).SetParent(null);
+
+        }
+        if (other.gameObject.CompareTag("Finish"))//when win then will remove all brick and take player about default
+        {
+            Vector3 newPos = PlayerPicture.position;
+            newPos.y = 0;
+            newPos.z -= .5f;
+            PlayerPicture.position = newPos;
+
+           
+
+            for(int i = 0; i < PlayerParent.childCount; i++)
+            {
+                if(PlayerParent.GetChild(PlayerParent.childCount-1).gameObject.name== "dimian")
+                {
+                    PlayerParent.GetChild(PlayerParent.childCount - 1).gameObject.SetActive(false);
+                    PlayerParent.GetChild(PlayerParent.childCount - 1).SetParent(null);
+                }    
+            }
+            FinishEvent?.Invoke();
+        }
+    }
+
 }

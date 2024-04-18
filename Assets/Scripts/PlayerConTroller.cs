@@ -14,7 +14,7 @@ public class PlayerConTroller : MonoBehaviour
 {
     [SerializeField] private Camera _Camera;
     [SerializeField] private LayerMask layerStack;
-    [SerializeField] private LayerMask layerGround,layerWin;
+    [SerializeField] private LayerMask layerGround;
     [SerializeField] private float moveSpeed= 10f;
     bool canMove;
     private float corner = 0;
@@ -232,7 +232,7 @@ public class PlayerConTroller : MonoBehaviour
     }
     public void CheckGround(Vector3 directionMove)//Check Ground to player move from position next to the wall
     {
-        for (int i = 1; i < 50; i++)
+        for (int i = 1; i < 70; i++)
         {
             
             Debug.DrawLine(transform.position + directionMove * i, transform.position + directionMove * i + Vector3.down * 5f, Color.red, 3f);
@@ -240,7 +240,6 @@ public class PlayerConTroller : MonoBehaviour
             if (Physics.Raycast(transform.position + Vector3.up * 2f + directionMove * i, Vector3.down, 5f, layerGround))
             {
                 PointEnd = transform.position + directionMove * (i-1);
-                Debug.Log("Point: " + PointEnd);
                 break;
             }
             
