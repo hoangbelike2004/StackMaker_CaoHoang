@@ -4,15 +4,26 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private List<GameObject> Level;
+    private void Start()
     {
-        
+        Level[GameController.Instance.indexLevelMap].SetActive(true);
+    }
+    private void OnEnable()
+    {
+        GameController.GameEvent += LoadLevel;
+    }
+    private void OnDisable()
+    {
+        GameController.GameEvent -= LoadLevel;
     }
 
-    // Update is called once per frame
-    void Update()
+    void LoadLevel()
     {
-        
+        Level[GameController.Instance.indexLevelMap].SetActive(true);
+        if (GameController.Instance.indexLevelMap > 0)
+        {
+            Level[GameController.Instance.indexLevelMap - 1].SetActive(false);
+        }
     }
 }

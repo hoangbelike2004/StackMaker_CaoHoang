@@ -21,16 +21,16 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
             return instance;
         }
     }
-    protected virtual void Awake()
-    {
-        if (instance == null) //before load scene it will don't destroy 
-        {
-            instance = this as T;
-            DontDestroyOnLoad(gameObject);
-        }
-        else//if exist add a gameobject then will destroy
-        {
-            Destroy(gameObject);
-        }
-    }
+    //protected virtual void Awake()
+    //{
+    //    if (instance == null) //before load scene it will don't destroy 
+    //    {
+    //        instance = this as T;
+    //        DontDestroyOnLoad(gameObject);
+    //    }
+    //    else//if exist add a gameobject then will destroy
+    //    {
+    //        Destroy(gameObject);
+    //    }
+    //}
 }

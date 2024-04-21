@@ -17,6 +17,7 @@ public class PlayerConTroller : MonoBehaviour
     [SerializeField] private LayerMask layerGround;
     [SerializeField] private float moveSpeed= 10f;
     bool canMove;
+    [SerializeField] Rigidbody rb;
     private float corner = 0;
     Vector2 start, end;
     Touch touch;
@@ -97,7 +98,7 @@ public class PlayerConTroller : MonoBehaviour
         Vector2 direction = end - start;
         if (direction.y > 0)//Up
         {
-            Debug.Log("up");
+            
             AngleOfTwoVector(start, end);
 
             if (start.x < end.x)
@@ -107,12 +108,12 @@ public class PlayerConTroller : MonoBehaviour
                     
                     CheckPoint(Vector3.forward);
                     CheckGround(Vector3.forward);
-                    Debug.Log("Forward");
+                    
                     //MovePlayer(PointEnd);
                 }
                 else if (corner > 45f)//Right
                 {
-                    Debug.Log("Right");
+                    
                     CheckGround(Vector3.right);
                     CheckPoint(Vector3.right);
                     //MovePlayer(Vector3.right);
@@ -125,12 +126,12 @@ public class PlayerConTroller : MonoBehaviour
                 {
                     CheckPoint(Vector3.forward);
                     CheckGround(Vector3.forward);
-                    Debug.Log("Forward");
+                    
                     //MovePlayer(Vector3.forward);
                 }
                 else if (corner > 45f)//Left
                 {
-                    Debug.Log("Left");
+                    
                     CheckPoint(Vector3.left);
                     CheckGround(Vector3.left);
                     //MovePlayer(Vector3.left);
@@ -146,7 +147,7 @@ public class PlayerConTroller : MonoBehaviour
                 {
                     CheckGround(Vector3.back);
                     CheckPoint(Vector3.back);
-                    Debug.Log("Backward");
+                    
                     //MovePlayer(Vector3.back);
                 }
                 else if (corner > 45f)//Right
@@ -163,14 +164,14 @@ public class PlayerConTroller : MonoBehaviour
                 {
                     CheckGround(Vector3.back);
                     CheckPoint(Vector3.back);
-                    Debug.Log("Backward");
+                    
                     //MovePlayer(Vector3.back);
                 }
                 else if (corner > 45f)//left
                 {
                     CheckGround(Vector3.left);
                     CheckPoint(Vector3.left);
-                    Debug.Log("Left");
+                    
                     //MovePlayer(Vector3.left);
                 }
             }
@@ -195,7 +196,7 @@ public class PlayerConTroller : MonoBehaviour
         for(int i = 1;i<50;i++)
         {
 
-            //Debug.DrawLine(transform.position + directionMove * i, transform.position + directionMove * i + Vector3.down * 5f, Color.red, 3f);
+            Debug.DrawLine(transform.position + directionMove * i, transform.position + directionMove * i + Vector3.down * 5f, Color.red, 3f);
 
             if(Physics.Raycast(transform.position +Vector3.up*2f + directionMove * i, Vector3.down, 5f, layerStack))
             {
@@ -204,6 +205,7 @@ public class PlayerConTroller : MonoBehaviour
             else
             {
                 targetPosition = transform.position + directionMove * (i-1);
+                Debug.Log(targetPosition);
                 break;
             }
            

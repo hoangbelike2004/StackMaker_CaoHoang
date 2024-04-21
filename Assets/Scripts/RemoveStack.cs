@@ -16,6 +16,7 @@ public class RemoveStack : MonoBehaviour
         if (other.CompareTag("UnBrick"))//when  touch line then remove brick
         {
             AddStack.countStack--;
+           
             other.transform.tag = "Untagged";
             index++;
             Vector3 newPos = PlayerPicture.position;
@@ -31,21 +32,27 @@ public class RemoveStack : MonoBehaviour
         {
             Vector3 newPos = PlayerPicture.position;
             newPos.y = 0;
-            newPos.z -= .5f;
+            newPos.z = 0f;
             PlayerPicture.position = newPos;
 
            
-
+            AddStack.countStack =0;
             for(int i = 0; i < PlayerParent.childCount; i++)
             {
-                if(PlayerParent.GetChild(PlayerParent.childCount-1).gameObject.name== "dimian")
+                if(PlayerParent.GetChild(PlayerParent.childCount-1).gameObject.name== "Brick(Clone)")
                 {
                     PlayerParent.GetChild(PlayerParent.childCount - 1).gameObject.SetActive(false);
                     PlayerParent.GetChild(PlayerParent.childCount - 1).SetParent(null);
                 }    
             }
-            FinishEvent?.Invoke();
+            Invoke(nameof(InvokeEvenWinGame), 3f);
+         
         }
+    }
+
+    private void InvokeEvenWinGame()
+    {
+        FinishEvent?.Invoke();
     }
 
 }

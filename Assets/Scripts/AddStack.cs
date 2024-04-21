@@ -5,6 +5,7 @@ using UnityEngine;
 public class AddStack : MonoBehaviour
 {
     [SerializeField] private Transform PlayerPiture;
+    [SerializeField] private GameObject Stack;
     float heightPlayer = 0.45f,heightStack = .45f;
     public int countStack = 0;
 
@@ -20,8 +21,11 @@ public class AddStack : MonoBehaviour
             //add stack to Original Player
             Transform t = other.transform;
             t.gameObject.tag = "Untagged";
-            t.SetParent(this.transform);
-            t.localPosition = new Vector3(0,countStack*heightStack,0);
+            t.gameObject.SetActive(false);
+            GameObject stacktmp = Instantiate(Stack);
+            stacktmp.transform.SetParent(this.transform);
+            stacktmp.tag = "Untagged";
+            stacktmp.transform.localPosition = new Vector3(0,countStack*heightStack,0);
             countStack++;
 
         }
