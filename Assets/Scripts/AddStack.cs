@@ -6,7 +6,7 @@ public class AddStack : MonoBehaviour
 {
     [SerializeField] private Transform PlayerPiture;
     [SerializeField] private GameObject Stack;
-    float heightPlayer = 0.45f,heightStack = .45f;
+    float heightPlayer = 0.3f,heightStack = .3f;
     public int countStack = 0;
 
     private void OnTriggerEnter(Collider other)

@@ -16,14 +16,16 @@ public class PlayerConTroller : MonoBehaviour
     [SerializeField] private LayerMask layerStack;
     [SerializeField] private LayerMask layerGround;
     [SerializeField] private float moveSpeed= 10f;
-    bool canMove;
+    Push _Push;
+    Transform Tf_Push;
+    bool canMove,isPush;
     [SerializeField] Rigidbody rb;
     private float corner = 0;
     Vector2 start, end;
     Touch touch;
     List<Vector3> listPoint = new List<Vector3>();
 
-    Vector3 targetPosition;
+    Vector3 targetPosition,vtPush;
 
     Vector3 PointEnd;
     void Start()
@@ -66,19 +68,27 @@ public class PlayerConTroller : MonoBehaviour
                 MoveControl();
             }
             else return;
-            
 
         }
+        
 
         if (targetPosition != Vector3.zero)
         {
             MovePlayer(targetPosition);
             canMove = false;
+
             if(transform.position == targetPosition)
             {
                 canMove = true;
                 targetPosition = Vector3.zero;
             }
+        }else if (isPush)
+        {
+            CheckPoint(vtPush);
+            Debug.Log(vtPush);
+            //CheckPoint(Vector3.forward);
+            //CheckPoint(Vector3.left);
+            //CheckPoint(Vector3.back);
         }
         if (PointEnd != Vector3.zero)
         {
@@ -90,6 +100,9 @@ public class PlayerConTroller : MonoBehaviour
                 PointEnd = Vector3.zero;
             }
         }
+        
+        
+        
 
     }
     public void MoveControl()//control move of player
@@ -152,7 +165,7 @@ public class PlayerConTroller : MonoBehaviour
                 }
                 else if (corner > 45f)//Right
                 {
-                    Debug.Log("Right");
+                    
                     CheckGround(Vector3.right);
                     CheckPoint(Vector3.right);
                     //MovePlayer(Vector3.right);
@@ -201,11 +214,12 @@ public class PlayerConTroller : MonoBehaviour
             if(Physics.Raycast(transform.position +Vector3.up*2f + directionMove * i, Vector3.down, 5f, layerStack))
             {
                 //targetPosition = transform.position + directionMove * i;
+
             }
             else
             {
                 targetPosition = transform.position + directionMove * (i-1);
-                Debug.Log(targetPosition);
+                //Debug.Log(targetPosition);
                 break;
             }
            
@@ -242,9 +256,28 @@ public class PlayerConTroller : MonoBehaviour
             if (Physics.Raycast(transform.position + Vector3.up * 2f + directionMove * i, Vector3.down, 5f, layerGround))
             {
                 PointEnd = transform.position + directionMove * (i-1);
+                
                 break;
             }
             
+        }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Push"))
+        {
+            isPush = true;
+            Tf_Push = other.transform;
+            Tf_Push.GetComponent<Push>().CheckDirection();
+            vtPush = other.GetComponent<Push>().directionWhenTouchPush;
+            
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Push"))
+        {
+            isPush = false;
         }
     }
     //private void OnDrawGizmos()
@@ -259,4 +292,6 @@ public class PlayerConTroller : MonoBehaviour
     //        Debug.Log("win");
     //    }
     //}
+
+
 }

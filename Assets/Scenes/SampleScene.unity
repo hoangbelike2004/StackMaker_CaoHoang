@@ -1678,9 +1678,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IU: {fileID: 1934154981}
-  isSound: 
-  isMusic: 
-  isVibrate: 
+  isSound: 0
+  isMusic: 0
+  isVibrate: 0
 --- !u!4 &651900033
 Transform:
   m_ObjectHideFlags: 0
@@ -2634,13 +2634,33 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1393731256173923086, guid: a9a81086c22d94449982a9de42b35e97, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.038
+      objectReference: {fileID: 0}
+    - target: {fileID: 1393731256173923086, guid: a9a81086c22d94449982a9de42b35e97, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 1393731256173923086, guid: a9a81086c22d94449982a9de42b35e97, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.254
+      objectReference: {fileID: 0}
+    - target: {fileID: 2031474664936593304, guid: a9a81086c22d94449982a9de42b35e97, type: 3}
+      propertyPath: m_TagString
+      value: Finish
+      objectReference: {fileID: 0}
+    - target: {fileID: 2031559917592296458, guid: a9a81086c22d94449982a9de42b35e97, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 3055550800176453093, guid: a9a81086c22d94449982a9de42b35e97, type: 3}
       propertyPath: m_Name
       value: Level3
       objectReference: {fileID: 0}
     - target: {fileID: 3055550800176453093, guid: a9a81086c22d94449982a9de42b35e97, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8803625528583870619, guid: a9a81086c22d94449982a9de42b35e97, type: 3}
       propertyPath: m_IsActive
@@ -3946,6 +3966,7 @@ MonoBehaviour:
   WinGame: {fileID: 2076098882}
   WinContinue: {fileID: 430428564}
   WinExit: {fileID: 1793075492}
+  _DataManager: {fileID: 651900032}
 --- !u!1 &1945396428
 GameObject:
   m_ObjectHideFlags: 0

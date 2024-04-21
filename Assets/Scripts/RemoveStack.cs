@@ -20,7 +20,7 @@ public class RemoveStack : MonoBehaviour
             other.transform.tag = "Untagged";
             index++;
             Vector3 newPos = PlayerPicture.position;
-            newPos.y -= 0.45f;
+            newPos.y -= 0.3f;
             PlayerPicture.position = newPos;
 
 
@@ -32,12 +32,11 @@ public class RemoveStack : MonoBehaviour
         {
             Vector3 newPos = PlayerPicture.position;
             newPos.y = 0;
-            newPos.z = 0f;
             PlayerPicture.position = newPos;
 
            
             AddStack.countStack =0;
-            for(int i = 0; i < PlayerParent.childCount; i++)
+            for(int i = 0; i <= PlayerParent.childCount; i++)
             {
                 if(PlayerParent.GetChild(PlayerParent.childCount-1).gameObject.name== "Brick(Clone)")
                 {

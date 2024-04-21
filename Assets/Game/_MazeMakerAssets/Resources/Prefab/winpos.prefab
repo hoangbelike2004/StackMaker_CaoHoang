@@ -6981,7 +6981,7 @@ GameObject:
   - component: {fileID: 33307176621398018}
   - component: {fileID: 23567718795477389}
   - component: {fileID: 6598332269255698610}
-  m_Layer: 6
+  m_Layer: 5
   m_Name: di (34)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10979,7 +10979,7 @@ GameObject:
   - component: {fileID: 5951158911204533018}
   m_Layer: 6
   m_Name: di (29)
-  m_TagString: Untagged
+  m_TagString: Finish
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
