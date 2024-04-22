@@ -7,7 +7,8 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private List<GameObject> Level;
     private void Start()
     {
-        Level[/*GameController.Instance.indexLevelMap*/2].SetActive(true);
+        
+        Level[GameController.Instance.indexLevelMap].SetActive(true);
     }
     private void OnEnable()
     {
@@ -20,10 +21,14 @@ public class LevelManager : MonoBehaviour
 
     void LoadLevel()
     {
+
         Level[GameController.Instance.indexLevelMap].SetActive(true);
-        if (GameController.Instance.indexLevelMap > 0)
-        {
-            Level[GameController.Instance.indexLevelMap - 1].SetActive(false);
+        for (int i = 0; i < GameController.Instance.indexLevelMap; i++) {
+            if (Level[i].activeSelf == true)
+            {
+                Level[i].SetActive(false);
+            }
         }
+        
     }
 }

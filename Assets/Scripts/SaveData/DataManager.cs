@@ -5,16 +5,25 @@ using UnityEngine;
 public class DataManager : Singleton<DataManager>
 {
     public IUManager IU;
-    private string soundstr, Musicstr, Vibratestr;
+    private string soundstr, Musicstr, Vibratestr,levelStr;
 
     public bool isSound,isMusic,isVibrate;
+    public int valesLevel=0;
+    private void Start()
+    {
+        //Debug.Log(PlayerPrefs.GetInt("Keylevel"));
+        //PlayerPrefs.DeleteKey("Keylevel");
+
+    }
     private void OnEnable()
     {
         IUManager.ExitSettingEvent += SetSetting;
+        IUManager.WinEvent += SetLevel;
     }
     private void OnDisable()
     {
         IUManager.ExitSettingEvent -= SetSetting;
+        IUManager.WinEvent -= SetLevel;
     }
     
     private void SetSetting()
@@ -54,5 +63,20 @@ public class DataManager : Singleton<DataManager>
 
         //Debug.Log(PlayerPrefs.GetString("key_sound"));
     }
+    void SetLevel()
+    {
 
+        //levelStr = GameController.Instance.indexLevelMap.ToString();
+        //DataSetting _dataSetting = new DataSetting(GameController.Instance.indexLevelMap);
+        //string jsonlevel = JsonUtility.ToJson(_dataSetting);
+        //PlayerPrefs.SetString("key_jsonlevel", jsonlevel);
+
+        //DataSetting jsonDataseting = JsonUtility.FromJson<DataSetting>(jsonlevel);
+
+        //PlayerPrefs.DeleteKey("Keylevel");
+        PlayerPrefs.SetInt("Keylevel",GameController.Instance.indexLevelMap+1);
+        
+        Debug.Log("Save: " + PlayerPrefs.GetInt("Keylevel"));
+        
+    }
 }

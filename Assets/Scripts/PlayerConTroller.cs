@@ -82,24 +82,29 @@ public class PlayerConTroller : MonoBehaviour
                 canMove = true;
                 targetPosition = Vector3.zero;
             }
-        }else if (isPush)
-        {
-            CheckPoint(vtPush);
-            Debug.Log(vtPush);
-            //CheckPoint(Vector3.forward);
-            //CheckPoint(Vector3.left);
-            //CheckPoint(Vector3.back);
         }
-        if (PointEnd != Vector3.zero)
+        else if (PointEnd != Vector3.zero)
         {
             MovePlayer(PointEnd);
-            canMove =false;
-            if(transform.position == PointEnd)
+            canMove = false;
+            if (transform.position == PointEnd)
             {
                 canMove = true;
                 PointEnd = Vector3.zero;
             }
         }
+        else if (isPush)
+        {
+            CheckPoint(vtPush);
+
+
+            CheckGround(vtPush);
+            Debug.Log(vtPush);
+            //CheckPoint(Vector3.forward);
+            //CheckPoint(Vector3.left);
+            //CheckPoint(Vector3.back);
+        }
+        
         
         
         
@@ -120,6 +125,7 @@ public class PlayerConTroller : MonoBehaviour
                 {
                     
                     CheckPoint(Vector3.forward);
+                    
                     CheckGround(Vector3.forward);
                     
                     //MovePlayer(PointEnd);
@@ -209,7 +215,7 @@ public class PlayerConTroller : MonoBehaviour
         for(int i = 1;i<50;i++)
         {
 
-            Debug.DrawLine(transform.position + directionMove * i, transform.position + directionMove * i + Vector3.down * 5f, Color.red, 3f);
+            //Debug.DrawLine(transform.position + directionMove * i, transform.position + directionMove * i + Vector3.down * 5f, Color.red, 3f);
 
             if(Physics.Raycast(transform.position +Vector3.up*2f + directionMove * i, Vector3.down, 5f, layerStack))
             {
@@ -266,10 +272,17 @@ public class PlayerConTroller : MonoBehaviour
     {
         if (other.CompareTag("Push"))
         {
+           
             isPush = true;
             Tf_Push = other.transform;
-            Tf_Push.GetComponent<Push>().CheckDirection();
-            vtPush = other.GetComponent<Push>().directionWhenTouchPush;
+            //Tf_Push.GetComponent<Push>().CheckDirection();
+            
+               vtPush = other.GetComponent<Push>().directionWhenTouchPush;
+                
+            
+            
+            
+            
             
         }
     }

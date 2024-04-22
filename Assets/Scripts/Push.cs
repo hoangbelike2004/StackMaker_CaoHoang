@@ -15,8 +15,15 @@ public class Push : MonoBehaviour
         Debug.DrawLine(transform.position + Vector3.up * 2.6f, transform.position + Vector3.up * 2.5f + Vector3.right,Color.red,2f);
         Debug.DrawLine(transform.position + Vector3.up * 2.5f, transform.position + Vector3.up * 2.5f + Vector3.back, Color.red, 2f);
     }
-    
-    public void CheckDirection()
+    IEnumerator Start()
+    {
+        while (true) {
+            StartCoroutine(CheckDirection());
+            yield return null;
+        
+        }
+    }
+    IEnumerator CheckDirection()
     {
         if(Physics.Raycast(transform.position, Vector3.right, 2f, Ground))
         {
@@ -73,6 +80,7 @@ public class Push : MonoBehaviour
         {
                 directionWhenTouchPush = Vector3.forward;
         }
-        
+        yield return null;
+
     }
 }
