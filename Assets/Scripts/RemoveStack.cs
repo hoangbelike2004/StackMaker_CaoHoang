@@ -8,8 +8,10 @@ public class RemoveStack : MonoBehaviour
     [SerializeField] Transform PlayerParent;
     public delegate void FinishDelegate();
     public static FinishDelegate FinishEvent;
-    [SerializeField] private ParticleSystem _particle1;
-    [SerializeField] private ParticleSystem _particle2;
+    public delegate void ParticleDelegate();
+    public static FinishDelegate ParticleEvent;
+    //[SerializeField] private ParticleSystem _particle1;
+    //[SerializeField] private ParticleSystem _particle2;
     int index=0;
     public AddStack AddStack;
     //[SerializeField] List<GameObject> stack;
@@ -52,14 +54,15 @@ public class RemoveStack : MonoBehaviour
 
             for (int i = 0; i < PlayerParent.childCount; i++)
             {
-                if (PlayerParent.GetChild(i).gameObject.name == "Brick(Clone)")
+                if (PlayerParent.GetChild(PlayerParent.childCount-1).gameObject.name == "Brick(Clone)")
                 {
-                    PlayerParent.GetChild(i).gameObject.SetActive(false);
-                    PlayerParent.GetChild(i).SetParent(null);
+                    PlayerParent.GetChild(PlayerParent.childCount - 1).gameObject.SetActive(false);
+                    PlayerParent.GetChild(PlayerParent.childCount - 1).SetParent(null);
                 }
             }
-            _particle1.Play();
-            _particle2.Play();
+            ParticleEvent?.Invoke();
+            //_particle1.Play();
+            //_particle2.Play();
 
             Invoke(nameof(InvokeEvenWinGame), 3f);
          

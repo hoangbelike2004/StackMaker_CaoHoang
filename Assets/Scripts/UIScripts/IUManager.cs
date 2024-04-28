@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,6 +18,8 @@ public class IUManager : Singleton<IUManager>
     [SerializeField] Button OffVibrate;
     public bool sound,music,vibrate;
     [SerializeField] Button AgreeSetting;
+    [SerializeField] private Button play,exitWhenPlay;
+    [SerializeField] private GameObject PlayGoj;
     [SerializeField] private GameObject SettingPanel;
 
 
@@ -40,7 +44,7 @@ public class IUManager : Singleton<IUManager>
         sound = true; music = true; vibrate = true;
         RemoveStack.FinishEvent -= ShowWin;
     }
-
+    
     void Start()
     {
         WinContinue.onClick.AddListener(ContinueThenWin);
@@ -51,6 +55,8 @@ public class IUManager : Singleton<IUManager>
         EffectSound.onClick.AddListener(OnclickEffectSound);
         Music.onClick.AddListener(OnClickMusic);
         Vibrate.onClick.AddListener(OnClickVibrate);
+        play.onClick.AddListener(OnClickPlay);
+        exitWhenPlay.onClick.AddListener(OnclickExit);
 
         OffEffectSound.onClick.AddListener(OnclickEffectSound);
         OffMusic.onClick.AddListener(OnClickMusic);
@@ -74,6 +80,16 @@ public class IUManager : Singleton<IUManager>
         }
         
 
+    }
+
+    private void OnClickPlay()
+    {
+        PlayGoj.SetActive(false);
+    }
+
+    private void OnclickExit()
+    {
+        Application.Quit();
     }
     private void OnClickMusic()
     {
@@ -128,7 +144,7 @@ public class IUManager : Singleton<IUManager>
         if (_DataManager.isSound != EffectSound.gameObject.activeSelf || _DataManager.isVibrate != Vibrate.gameObject.activeSelf
             || _DataManager.isMusic != Music.gameObject.activeSelf)
         {
-            
+            Debug.Log("after exit");
             AfterSetingEvent?.Invoke();//when on click exit then call delegate AftersetingEvent
         }
         if (EffectSound.gameObject.activeSelf== _DataManager.isSound && Vibrate.gameObject.activeSelf== _DataManager.isVibrate

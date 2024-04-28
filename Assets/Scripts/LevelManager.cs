@@ -7,7 +7,6 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private List<GameObject> Level;
     private void Start()
     {
-        
         Level[GameController.Instance.indexLevelMap].SetActive(true);
     }
     private void OnEnable()
